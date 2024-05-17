@@ -1,7 +1,7 @@
 import unittest
 from typing import Any, Dict
 
-from src.gdtransform.transform import transformation
+from ..src.gdtransform.transform import transformation
 
 
 @transformation(name='my-transformation')

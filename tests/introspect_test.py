@@ -1,8 +1,8 @@
 import unittest
 from typing import Any, Dict
 
-from src.gdtransform.introspect import get_module_transformation
-from src.gdtransform.transform import transformation
+from ..src.gdtransform.introspect import get_module_transformation
+from ..src.gdtransform.transform import transformation
 
 
 @transformation(name='module-transformation')
