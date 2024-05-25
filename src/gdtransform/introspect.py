@@ -25,3 +25,8 @@ def get_module_transformation(module, name: str):
             return member_func
 
     return None
+
+
+def is_batch_transformation(function):
+    return hasattr(function, GRID_BATCH_TRANSFORMATION_FLAG) and \
+        getattr(function, GRID_BATCH_TRANSFORMATION_FLAG)

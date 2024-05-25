@@ -1,7 +1,7 @@
 import unittest
 from typing import Any, Dict, List
 
-from src.gdtransform.introspect import get_module_transformation
+from src.gdtransform.introspect import get_module_transformation, is_batch_transformation
 from src.gdtransform.transform import batch_transformation, transformation
 
 
@@ -32,3 +32,7 @@ class IntrospectTest(unittest.TestCase):
         from tests import introspect_test as test_module
         func = get_module_transformation(test_module, 'module-random')
         self.assertIsNone(func)
+
+    def test_is_batch_transformation(self):
+        self.assertTrue(is_batch_transformation(transformation2))
+        self.assertFalse(is_batch_transformation(module_transformation))
