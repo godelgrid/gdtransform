@@ -1,8 +1,8 @@
 import unittest
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 from src.gdtransform.introspect import get_module_transformation
-from src.gdtransform.transform import transformation
+from src.gdtransform.transform import batch_transformation, transformation
 
 
 @transformation(name='module-transformation')
@@ -10,9 +10,10 @@ def module_transformation(data: Dict[str, Any]):
     data['field'] = 'value'
 
 
-@transformation(name='transformation-2')
-def transformation2(data: Dict[str, Any]):
-    data['second'] = 'second_value'
+@batch_transformation(name='transformation-2')
+def transformation2(data_list: List[Dict[str, Any]]):
+    for data in data_list:
+        data['second'] = 'second_value'
 
 
 class IntrospectTest(unittest.TestCase):
@@ -24,7 +25,7 @@ class IntrospectTest(unittest.TestCase):
         func(data)
         self.assertEqual('value', data['field'])
         func = get_module_transformation(test_module, 'transformation-2')
-        func(data)
+        func([data])
         self.assertEqual('second_value', data['second'])
 
     def test_find_module_negative(self):

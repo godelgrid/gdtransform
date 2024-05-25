@@ -1,12 +1,18 @@
 from inspect import getmembers, isfunction
 
-from .constants import GRID_TRANSFORMATION_FLAG, GRID_TRANSFORMATION_NAME
+from .constants import GRID_BATCH_TRANSFORMATION_FLAG, GRID_TRANSFORMATION_FLAG, GRID_TRANSFORMATION_NAME
+
+
+def has_transformation_flag(function):
+    return (hasattr(function, GRID_TRANSFORMATION_FLAG) and
+            getattr(function, GRID_TRANSFORMATION_FLAG)) or \
+        (hasattr(function, GRID_BATCH_TRANSFORMATION_FLAG) and
+         getattr(function, GRID_BATCH_TRANSFORMATION_FLAG))
 
 
 def is_valid_transformation(function, name):
-    return hasattr(function, GRID_TRANSFORMATION_FLAG) and \
+    return has_transformation_flag(function) and \
         hasattr(function, GRID_TRANSFORMATION_NAME) and \
-        getattr(function, GRID_TRANSFORMATION_FLAG) and \
         getattr(function, GRID_TRANSFORMATION_NAME) == name
 
 
