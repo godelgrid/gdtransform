@@ -5,7 +5,7 @@ from src.gdtransform.test import TransformationTest
 from src.gdtransform.transform import transformation_builder
 
 
-@transformation_builder(is_batch=False)
+@transformation_builder(name='builder1', is_batch=False)
 def my_transformation_builder(*args, **kwargs):
     def add_field(data: Dict[str, Any]):
         data['field'] = 'value'
@@ -13,7 +13,7 @@ def my_transformation_builder(*args, **kwargs):
     return add_field
 
 
-@transformation_builder(is_batch=True)
+@transformation_builder(name='builder2', is_batch=True)
 def my_batch_transformation_builder(*args, **kwargs):
     def add_field(data_list: List[Dict[str, Any]]):
         for data in data_list:

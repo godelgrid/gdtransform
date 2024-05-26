@@ -1,7 +1,7 @@
 from typing import Any, Dict, List
 
 from .constants import GRID_BATCH_TRANSFORMATION_FLAG, \
-    GRID_TRANSFORMATION_BUILDER_FLAG, GRID_TRANSFORMATION_FLAG, \
+    GRID_TRANSFORMATION_BUILDER_FLAG, GRID_TRANSFORMATION_BUILDER_NAME, GRID_TRANSFORMATION_FLAG, \
     GRID_TRANSFORMATION_NAME
 
 
@@ -39,28 +39,31 @@ def batch_transformation(name: str):
     return __transformation
 
 
-def transformation_builder(is_batch: bool):
-    if is_batch is None:
+def transformation_builder(name: str, is_batch: bool):
+    if not name:
+        raise Exception('name is mandatory')
+    elif is_batch is None:
         raise Exception('is_batch option not specified')
 
     def __builder(operator):
-        def wrapper(name: str, *args, **kwargs):
+        def wrapper(transformation_name: str, *args, **kwargs):
             operator_callable = operator(*args, **kwargs)
 
             if not is_batch:
-                @transformation(name=name)
+                @transformation(name=transformation_name)
                 def __wrapped_transformation(data: Dict[str, Any]):
                     operator_callable(data)
 
                 return __wrapped_transformation
             else:
-                @batch_transformation(name=name)
+                @batch_transformation(name=transformation_name)
                 def __wrapped_transformation(data_list: List[Dict[str, Any]]):
                     operator_callable(data_list)
 
                 return __wrapped_transformation
 
         setattr(wrapper, GRID_TRANSFORMATION_BUILDER_FLAG, True)
+        setattr(wrapper, GRID_TRANSFORMATION_BUILDER_NAME, name)
 
         return wrapper
 
