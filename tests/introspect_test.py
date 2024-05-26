@@ -1,7 +1,7 @@
 import unittest
 from typing import Any, Dict, List
 
-from src.gdtransform.introspect import get_module_transformation, is_batch_transformation
+from src.gdtransform.introspect import get_module_transformation, is_batch_transformation, is_transformation_builder
 from src.gdtransform.transform import batch_transformation, transformation, transformation_builder
 
 
@@ -54,3 +54,7 @@ class IntrospectTest(unittest.TestCase):
         tr(data)
         self.assertTrue('builder_field' in data)
         self.assertEqual('builder_value', data['builder_field'])
+
+    def test_is_transformation_builder(self):
+        self.assertFalse(is_transformation_builder(transformation2))
+        self.assertTrue(is_transformation_builder(my_transformation_builder))

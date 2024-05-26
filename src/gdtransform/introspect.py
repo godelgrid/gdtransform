@@ -46,4 +46,4 @@ def is_batch_transformation(function):
 
 
 def is_transformation_builder(function):
-    return has_transformation_flag(function)
+    return has_builder_flag(function)
