@@ -1,6 +1,7 @@
 from inspect import getmembers, isfunction
 
-from .constants import GRID_BATCH_TRANSFORMATION_FLAG, GRID_TRANSFORMATION_FLAG, GRID_TRANSFORMATION_NAME
+from .constants import GRID_BATCH_TRANSFORMATION_FLAG, GRID_TRANSFORMATION_BUILDER_FLAG, GRID_TRANSFORMATION_FLAG, \
+    GRID_TRANSFORMATION_NAME
 
 
 def has_transformation_flag(function):
@@ -8,6 +9,11 @@ def has_transformation_flag(function):
             getattr(function, GRID_TRANSFORMATION_FLAG)) or \
         (hasattr(function, GRID_BATCH_TRANSFORMATION_FLAG) and
          getattr(function, GRID_BATCH_TRANSFORMATION_FLAG))
+
+
+def has_builder_flag(function):
+    return hasattr(function, GRID_TRANSFORMATION_BUILDER_FLAG) and \
+        getattr(function, GRID_TRANSFORMATION_BUILDER_FLAG)
 
 
 def is_valid_transformation(function, name):
@@ -30,3 +36,7 @@ def get_module_transformation(module, name: str):
 def is_batch_transformation(function):
     return hasattr(function, GRID_BATCH_TRANSFORMATION_FLAG) and \
         getattr(function, GRID_BATCH_TRANSFORMATION_FLAG)
+
+
+def is_transformation_builder(function):
+    return has_transformation_flag(function)

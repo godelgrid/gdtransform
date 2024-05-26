@@ -7,7 +7,7 @@ where = ["src"]
 
 [project]
 name = "gdtransform"
-version = "0.0.9"
+version = "0.1.0"
 authors = [
     { name = "Mayank Bhargava", email = "mbhargava.gd@gmail.com" },
 ]
